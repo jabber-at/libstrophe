@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+%:
+	dh $@ --parallel --with autoreconf
+
+override_dh_auto_configure:
+	./bootstrap.sh
+	dh_auto_configure
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f test-driver configure Makefile.in
+override_dh_installdocs:
+	dh_installdocs -X LICENSE.txt MIT-LICENSE.txt GPL-LICENSE.txt

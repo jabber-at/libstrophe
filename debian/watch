@@ -1,0 +1,2 @@
+version=3
+https://github.com/strophe/libstrophe/releases .*/archive/(\d[\d\.]+)\.tar\.gz

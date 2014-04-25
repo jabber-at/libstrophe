@@ -1,0 +1,29 @@
+Source: libstrophe
+Priority: optional
+Maintainer: Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
+Build-Depends: debhelper (>= 9), check, dh-autoreconf, pkg-config, libssl-dev, libexpat1-dev
+Standards-Version: 3.9.5
+Section: libs
+Homepage: http://strophe.im/
+Vcs-Git: git://anonscm.debian.org/collab-maint/libstrophe.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/libstrophe.git
+
+
+Package: libstrophe-dev
+Section: libdevel
+Architecture: any
+Depends: libstrophe0 (= ${binary:Version}), ${misc:Depends}
+Description: Library for writing XMPP clients - development files
+ libstrophe is a lightweight XMPP client library written in C. 
+ It has minimal dependencies and is configurable for various environments. 
+ .
+ This package contains the development files.
+
+Package: libstrophe0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Library for writing XMPP clients - shared library
+ libstrophe is a lightweight XMPP client library written in C. 
+ It has minimal dependencies and is configurable for various environments. 
+ .
+ This package contains the shared library.
