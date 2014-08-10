@@ -18,6 +18,7 @@ Package: libstrophe-dev
 Section: libdevel
 Architecture: any
 Depends: libstrophe0 (= ${binary:Version}), ${misc:Depends}
+Pre-Depends: ${misc:Pre-Depends}
 Description: Library for writing XMPP clients - development files
  libstrophe is a lightweight XMPP client library written in C.
  It has minimal dependencies and is configurable for various environments.
@@ -26,6 +27,7 @@ Description: Library for writing XMPP clients - development files
 
 Package: libstrophe0
 Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: Library for writing XMPP clients - shared library
  libstrophe is a lightweight XMPP client library written in C.
