@@ -10,9 +10,3 @@ export DH_VERBOSE=1
 override_dh_autoreconf:
 	dh_autoreconf ./bootstrap.sh
 
-#override_dh_auto_clean:
-#	dh_auto_clean
-#	rm -f test-driver configure Makefile.in
-#
-override_dh_installdocs:
-	dh_installdocs -X MIT-LICENSE.txt GPL-LICENSE.txt
