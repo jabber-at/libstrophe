@@ -1,33 +1,28 @@
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -1,6 +1,6 @@
+@@ -1,5 +1,5 @@
  AUTOMAKE_OPTIONS = subdir-objects
- 
--AM_CFLAGS = -g -Wall
-+AM_CFLAGS = -g -Wall -lssl -lcrypto
+-
++ACLOCAL_AMFLAGS = -I m4
+ AM_CFLAGS = -g -Wall
  
  PARSER_CFLAGS=@PARSER_CFLAGS@
- PARSER_LIBS=@PARSER_LIBS@
-@@ -13,7 +13,7 @@
- ## Main build targets
- lib_LTLIBRARIES = libstrophe.la
- 
--libstrophe_la_CFLAGS=$(STROPHE_FLAGS) $(PARSER_CFLAGS)
-+libstrophe_la_CFLAGS=$(STROPHE_FLAGS) $(PARSER_CFLAGS) -lssl -lcrypto
- libstrophe_la_LDFLAGS=$(SSL_LIBS) $(PARSER_LIBS)
- libstrophe_la_SOURCES = src/auth.c src/conn.c src/ctx.c \
- 	src/event.c src/handler.c src/hash.c \
+@@ -41,7 +41,7 @@
+ examples_active_LDADD = $(STROPHE_LIBS) 
+ examples_roster_SOURCES = examples/roster.c
+ examples_roster_CFLAGS = $(STROPHE_FLAGS)
+-examples_roster_LDADD = $(STROPHE_LIBS) 
++examples_roster_LDADD = $(SSL_LIBS) $(STROPHE_LIBS)
+ examples_basic_SOURCES = examples/basic.c
+ examples_basic_CFLAGS = $(STROPHE_FLAGS)
+ examples_basic_LDADD = $(STROPHE_LIBS) 
 --- a/configure.ac
 +++ b/configure.ac
-@@ -59,9 +59,10 @@
- fi
+@@ -2,6 +2,7 @@
+ AM_INIT_AUTOMAKE([foreign])
+ LT_INIT([dlopen])
  
- AC_CHECK_HEADERS([arpa/nameser_compat.h])
--
-+AM_CFLAGS="-lss -lcrypto"
- AM_CONDITIONAL([PARSER_EXPAT], [test x$with_parser != xlibxml2])
- AC_SUBST(PARSER_NAME)
-+AC_SUBST(AM_CFLAGS)
- AC_SUBST(PARSER_CFLAGS)
- AC_SUBST(PARSER_LIBS)
- AC_CONFIG_FILES([Makefile])
++AC_CONFIG_MACRO_DIR([m4])
+ AC_PROG_CC
+ AM_PROG_CC_C_O
+ PKG_PROG_PKG_CONFIG
