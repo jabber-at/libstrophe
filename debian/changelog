@@ -2,5 +2,4 @@ libstrophe (0.8.6-1) unstable; urgency=medium
 
   * Initial release (Closes: #511341)
 
- -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Sun, 10 Aug 2014 11:52:14 +0200
-
+ -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Thu, 28 Aug 2014 11:43:22 +0200
