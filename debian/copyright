@@ -23,6 +23,16 @@ License: MIT
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 
+Files: src/sha1.*
+Copyright: Steve Reid <sreid@sea-to-sky.net>
+           James H. Brown <jbrown@burgoyne.com>
+           Saul Kravitz <Saul.Kravitz@celera.com>
+           Ralph Giles <giles@artofcode.com>
+License: public-domain
+ You can use this free for any purpose. It's in the public domain. It has no
+ warranty
+
+
 Files: debian/*
 Copyright: 2014 Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
 License: MIT
@@ -43,3 +53,5 @@ License: MIT
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
+
+
