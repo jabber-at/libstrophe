@@ -17,3 +17,17 @@
  libstrophe_la_LDFLAGS=$(SSL_LIBS) $(PARSER_LIBS)
  libstrophe_la_SOURCES = src/auth.c src/conn.c src/ctx.c \
  	src/event.c src/handler.c src/hash.c \
+--- a/configure.ac
++++ b/configure.ac
+@@ -59,9 +59,10 @@
+ fi
+ 
+ AC_CHECK_HEADERS([arpa/nameser_compat.h])
+-
++AM_CFLAGS="-lss -lcrypto"
+ AM_CONDITIONAL([PARSER_EXPAT], [test x$with_parser != xlibxml2])
+ AC_SUBST(PARSER_NAME)
++AC_SUBST(AM_CFLAGS)
+ AC_SUBST(PARSER_CFLAGS)
+ AC_SUBST(PARSER_LIBS)
+ AC_CONFIG_FILES([Makefile])
