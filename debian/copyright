@@ -4,7 +4,7 @@ Source: http://strophe.im/
 
 Files: *
 Copyright: <2005-2014> Jack Moffit <jack@metajack.im>
-License: MIT
+License: MIT and GPL-3+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
@@ -32,9 +32,39 @@ License: public-domain
  You can use this free for any purpose. It's in the public domain. It has no
  warranty
 
+File: src/snprintf.c
+Copyright: 1995 Patrick Powell <papowell@astart.com>
+           1996 Brandon Long <blong@fiction.net>
+           1998 Thomas Roessler <roessler@guug.de>
+           1998 Michael Elkins <me@cs.hmc.edu>
+           1998 Andrew Tridgell <tridge@samba.org>
+           2000 Russ Allbery <rra@stanford.edu>
+License: permissive
+ This code is based on code written by Patrick Powell (papowell@astart.com)
+ It may be used for any purpose as long as this notice remains intact
+ on all source code distributions
 
 Files: debian/*
 Copyright: 2014 Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
+License: MIT and GPL-3+
+
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
+
 License: MIT
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
