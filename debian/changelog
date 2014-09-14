@@ -1,13 +1,6 @@
-libstrophe (0.8.6-2) unstable; urgency=medium
-
-  * Added patch to add linking to CFLAGS 
-  * src/sha1.* added to d/copyright with public-domain
-  * added d/gbp.conf 
-
- -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Thu, 28 Aug 2014 11:43:53 +0200
-
 libstrophe (0.8.6-1) unstable; urgency=medium
 
   * Initial release (Closes: #511341)
 
- -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Thu, 28 Aug 2014 11:43:22 +0200
+ -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Thu, 28 Aug 2014 11:43:53 +0200
+
