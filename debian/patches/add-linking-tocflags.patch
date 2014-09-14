@@ -1,3 +1,5 @@
+Subject: adding linking ssl flags
+Author: Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
 --- a/Makefile.am
 +++ b/Makefile.am
 @@ -1,5 +1,5 @@

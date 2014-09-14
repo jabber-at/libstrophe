@@ -32,7 +32,7 @@ License: public-domain
  You can use this free for any purpose. It's in the public domain. It has no
  warranty
 
-File: src/snprintf.c
+Files: src/snprintf.c
 Copyright: 1995 Patrick Powell <papowell@astart.com>
            1996 Brandon Long <blong@fiction.net>
            1998 Thomas Roessler <roessler@guug.de>
