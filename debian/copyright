@@ -4,7 +4,7 @@ Source: http://strophe.im/
 
 Files: *
 Copyright: <2005-2014> Jack Moffit <jack@metajack.im>
-License: MIT and GPL-3+
+License: MIT
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
@@ -46,7 +46,7 @@ License: permissive
 
 Files: debian/*
 Copyright: 2014 Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
-License: MIT and GPL-3+
+License: MIT
 
 License: GPL-3+
  This program is free software: you can redistribute it and/or modify
