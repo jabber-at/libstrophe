@@ -6,7 +6,7 @@ Files: *
 Copyright: <2005-2014> Jack Moffit <jack@metajack.im>
 Comment: 
  GPL Option is moot due to the missing SSL exception and the effective distribution option is only MIT, hence the lintian override
-License: GPL-3+ and MIT
+License: MIT and GPL-3+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
