@@ -4,6 +4,8 @@ Source: http://strophe.im/
 
 Files: *
 Copyright: <2005-2014> Jack Moffit <jack@metajack.im>
+Comment: GPL Option is moot due to the missing SSL exception and the effective distribution option
+is only MIT, hence the lintian override
 License: MIT and GPL-3+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +24,7 @@ License: MIT and GPL-3+
  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
+
 
 Files: src/sha1.*
 Copyright: Steve Reid <sreid@sea-to-sky.net>
