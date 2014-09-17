@@ -3,10 +3,10 @@ Upstream-Name: libstrophe
 Source: http://strophe.im/
 
 Files: *
-Copyright: 2005-2009 Collecta, Inc. 
+Copyright: 2005-2009 Collecta, Inc.
            2005-2014 Jack Moffit <jack@metajack.im>
-Comment: 
- GPL Option is moot due to the missing SSL exception and the effective 
+Comment:
+ GPL Option is moot due to the missing SSL exception and the effective
  distribution option is only MIT, hence the lintian override
 License: MIT and GPL-3
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -60,7 +60,7 @@ License: permissive
 
 Files: debian/*
 Copyright: 2014 Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
-License: GPL-3
+License: MIT and GPL-3
 
 License: GPL-3
  This program is free software: you can redistribute it and/or modify
