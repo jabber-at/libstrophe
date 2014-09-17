@@ -60,7 +60,7 @@ License: permissive
 
 Files: debian/*
 Copyright: 2014 Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
-License: MIT and GPL-3
+License: MIT
 
 License: GPL-3
  This program is free software: you can redistribute it and/or modify
