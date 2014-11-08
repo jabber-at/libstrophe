@@ -1,3 +1,9 @@
+libstrophe (0.8.7-1) unstable; urgency=medium
+
+  * Imported Upstream version 0.8.7
+
+ -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Sat, 08 Nov 2014 07:49:46 +0100
+
 libstrophe (0.8.6-1) unstable; urgency=medium
 
   * Initial release (Closes: #511341)
