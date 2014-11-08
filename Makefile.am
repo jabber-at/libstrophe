@@ -1,5 +1,6 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
+ACLOCAL_AMFLAGS = -I m4
 AM_CFLAGS = -g -Wall
 
 PARSER_CFLAGS=@PARSER_CFLAGS@
@@ -13,15 +14,18 @@ STROPHE_LIBS = libstrophe.la
 ## Main build targets
 lib_LTLIBRARIES = libstrophe.la
 
-libstrophe_la_CFLAGS=$(STROPHE_FLAGS) $(PARSER_CFLAGS)
-libstrophe_la_LDFLAGS=$(SSL_LIBS) $(PARSER_LIBS)
+libstrophe_la_CFLAGS = $(STROPHE_FLAGS) $(PARSER_CFLAGS)
+libstrophe_la_LDFLAGS = $(SSL_LIBS) $(PARSER_LIBS)
+# Export only public API
+libstrophe_la_LDFLAGS += -export-symbols-regex '^xmpp_'
 libstrophe_la_SOURCES = src/auth.c src/conn.c src/ctx.c \
 	src/event.c src/handler.c src/hash.c \
-	src/jid.c src/md5.c src/sasl.c src/sha1.c \
+	src/jid.c src/md5.c src/sasl.c src/scram.c src/sha1.c \
 	src/snprintf.c src/sock.c src/stanza.c src/thread.c \
 	src/tls_openssl.c src/util.c \
 	src/common.h src/hash.h src/md5.h src/ostypes.h src/parser.h \
-	src/sasl.h src/sha1.h src/sock.h src/thread.h src/tls.h src/util.h
+	src/sasl.h src/scram.h src/sha1.h src/sock.h src/thread.h src/tls.h \
+	src/util.h
 
 if PARSER_EXPAT
 libstrophe_la_SOURCES += src/parser_expat.c
@@ -31,6 +35,8 @@ endif
 
 include_HEADERS = strophe.h
 noinst_HEADERS = strophepp.h
+
+pkgconfig_DATA = libstrophe.pc
 
 EXTRA_DIST = docs
 
@@ -57,3 +63,4 @@ tests_check_parser_SOURCES = tests/check_parser.c tests/test.h
 tests_check_parser_CFLAGS = @check_CFLAGS@ $(PARSER_CFLAGS) $(STROPHE_FLAGS) \
 	-I$(top_srcdir)/src
 tests_check_parser_LDADD = @check_LIBS@ $(STROPHE_LIBS)
+tests_check_parser_LDFLAGS = -static
