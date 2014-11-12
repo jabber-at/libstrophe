@@ -1,6 +1,11 @@
 libstrophe (0.8.7-1) unstable; urgency=medium
 
   * Imported Upstream version 0.8.7
+  * Bump standards to 3.9.6
+    - no changes needed
+  * Regenerated d/libstrophe0.symbols
+    - no ABI changes needed, hidden private symbols
+      not used anyway
 
  -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Sat, 08 Nov 2014 07:49:46 +0100
 
