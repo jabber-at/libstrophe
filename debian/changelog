@@ -1,6 +1,7 @@
 libstrophe (0.8.8-1) unstable; urgency=medium
 
   * Imported Upstream version 0.8.8
+  * d/copyright: removed License: GPL-3 and MIT
 
  -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Fri, 28 Aug 2015 22:30:43 +0200
 
