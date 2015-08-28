@@ -6,10 +6,7 @@
 **  This software is provided AS-IS with no warranty, either express
 **  or implied.
 **
-**  This software is distributed under license and may not be copied,
-**  modified or distributed except as expressly authorized under the
-**  terms of the license contained in the file LICENSE.txt in this
-**  distribution.
+**  This program is dual licensed under the MIT and GPLv3 licenses.
 */
 
 /** @file 
@@ -442,6 +439,73 @@ int xmpp_connect_client(xmpp_conn_t * const conn,
     return 0;
 }
 
+/** Initiate a component connection to server.
+ *  This function returns immediately after starting the connection
+ *  process to the XMPP server, and notifiations of connection state changes
+ *  will be sent to the internal callback function that will set up handler
+ *  for the component handshake as defined in XEP-0114.
+ *  The domain and port to connect to must be provided in this case as the JID
+ *  provided to the call serves as component identifier to the server and is
+ *  not subject to DNS resolution.
+ *
+ *  @param conn a Strophe connection object
+ *  @param server a string with domain to use directly as the domain can't be
+ *      extracted from the component name/JID. If this is not set, the call
+ *      will fail.
+ *  @param port an integer port number to use to connect to server expecting
+ *      an external component.  If this is 0, the port 5347 will be assumed.
+ *  @param callback a xmpp_conn_handler callback function that will receive
+ *      notifications of connection status
+ *  @param userdata an opaque data pointer that will be passed to the callback
+ *
+ *  @return 0 on success and -1 on an error
+ *
+ *  @ingroup Connections
+ */
+int xmpp_connect_component(xmpp_conn_t * const conn, const char * const server,
+                           unsigned short port, xmpp_conn_handler callback,
+                           void * const userdata)
+{
+    int connectport;
+
+    conn->type = XMPP_COMPONENT;
+    /* JID serves as an identificator here and will be used as "to" attribute
+       of the stream */
+    conn->domain = xmpp_strdup(conn->ctx, conn->jid);
+
+    /*  The server domain, jid and password MUST be specified. */
+    if (!(server && conn->jid && conn->pass)) return -1;
+
+
+    connectport = port ? port : 5347;
+
+    xmpp_debug(conn->ctx, "xmpp", "Connecting via %s", server);
+    conn->sock = sock_connect(server, connectport);
+    xmpp_debug(conn->ctx, "xmpp", "sock_connect to %s:%d returned %d",
+               server, connectport, conn->sock);
+    if (conn->sock == -1) return -1;
+
+    /* XEP-0114 does not support TLS */
+    conn->tls_disabled = 1;
+
+    /* setup handler */
+    conn->conn_handler = callback;
+    conn->userdata = userdata;
+
+    conn_prepare_reset(conn, auth_handle_component_open);
+
+    /* FIXME: it could happen that the connect returns immediately as
+     * successful, though this is pretty unlikely.  This would be a little
+     * hard to fix, since we'd have to detect and fire off the callback
+     * from within the event loop */
+
+    conn->state = XMPP_STATE_CONNECTING;
+    conn->timeout_stamp = time_stamp();
+    xmpp_debug(conn->ctx, "xmpp", "attempting to connect to %s", server);
+
+    return 0;
+}
+
 /** Cleanly disconnect the connection.
  *  This function is only called by the stream parser when </stream:stream>
  *  is received, and it not intended to be called by code outside of Strophe.
@@ -684,6 +748,7 @@ static void _log_open_tag(xmpp_conn_t *conn, char **attrs)
     size_t pos;
     int len;
     int i;
+    char *attr;
     
     if (!attrs) return;
 
@@ -692,10 +757,11 @@ static void _log_open_tag(xmpp_conn_t *conn, char **attrs)
     if (len < 0) return;
     
     pos += len;
-    
     for (i = 0; attrs[i]; i += 2) {
+        attr = parser_attr_name(conn->ctx, attrs[i]);
         len = xmpp_snprintf(&buf[pos], 4096 - pos, " %s='%s'",
-                            attrs[i], attrs[i+1]);
+                            attr, attrs[i+1]);
+        xmpp_free(conn->ctx, attr);
         if (len < 0) return;
         pos += len;
     }
@@ -725,7 +791,7 @@ static void _handle_stream_start(char *name, char **attrs,
     xmpp_conn_t *conn = (xmpp_conn_t *)userdata;
     char *id;
 
-    if (strcmp(name, "stream:stream") != 0) {
+    if (strcmp(name, "stream")) {
         printf("name = %s\n", name);
         xmpp_error(conn->ctx, "conn", "Server did not open valid stream.");
         conn_disconnect(conn);
@@ -743,7 +809,7 @@ static void _handle_stream_start(char *name, char **attrs,
             conn_disconnect(conn);
         }
     }
-    
+
     /* call stream open handler */
     conn->open_handler(conn);
 }
