@@ -11,6 +11,7 @@ libstrophe.so.0 libstrophe0 #MINVER#
  xmpp_conn_set_jid@Base 0.8.6
  xmpp_conn_set_pass@Base 0.8.6
  xmpp_connect_client@Base 0.8.6
+ xmpp_connect_component@Base 0.8.8
  xmpp_ctx_free@Base 0.8.6
  xmpp_ctx_new@Base 0.8.6
  xmpp_debug@Base 0.8.6

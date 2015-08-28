@@ -1,7 +1,9 @@
 libstrophe (0.8.8-1) unstable; urgency=medium
 
   * Imported Upstream version 0.8.8
-  * d/copyright: removed License: GPL-3 and MIT
+  * Cleaned-up licenses in d/copyright
+  * d/libstrophe0.symbols:
+    - added xmpp_connect_component@Base 0.8.8-1
 
  -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Fri, 28 Aug 2015 22:30:43 +0200
 
