@@ -6,6 +6,7 @@ AM_CFLAGS = -g -Wall
 PARSER_CFLAGS=@PARSER_CFLAGS@
 PARSER_LIBS=@PARSER_LIBS@
 
+SSL_CFLAGS = @openssl_CFLAGS@
 SSL_LIBS = @openssl_LIBS@
 
 STROPHE_FLAGS = -I$(top_srcdir)
@@ -14,7 +15,7 @@ STROPHE_LIBS = libstrophe.la
 ## Main build targets
 lib_LTLIBRARIES = libstrophe.la
 
-libstrophe_la_CFLAGS = $(STROPHE_FLAGS) $(PARSER_CFLAGS)
+libstrophe_la_CFLAGS = $(SSL_CFLAGS) $(STROPHE_FLAGS) $(PARSER_CFLAGS)
 libstrophe_la_LDFLAGS = $(SSL_LIBS) $(PARSER_LIBS)
 # Export only public API
 libstrophe_la_LDFLAGS += -export-symbols-regex '^xmpp_'
@@ -41,7 +42,7 @@ pkgconfig_DATA = libstrophe.pc
 EXTRA_DIST = docs
 
 ## Examples
-noinst_PROGRAMS = examples/active examples/roster examples/basic examples/bot
+noinst_PROGRAMS = examples/active examples/roster examples/basic examples/bot examples/component
 examples_active_SOURCES = examples/active.c
 examples_active_CFLAGS = $(STROPHE_FLAGS)
 examples_active_LDADD = $(STROPHE_LIBS) 
@@ -53,7 +54,10 @@ examples_basic_CFLAGS = $(STROPHE_FLAGS)
 examples_basic_LDADD = $(STROPHE_LIBS) 
 examples_bot_SOURCES = examples/bot.c
 examples_bot_CFLAGS = $(STROPHE_FLAGS)
-examples_bot_LDADD = $(STROPHE_LIBS) 
+examples_bot_LDADD = $(STROPHE_LIBS)
+examples_component_SOURCES = examples/component.c
+examples_component_CFLAGS = $(STROPHE_FLAGS)
+examples_component_LDADD = $(STROPHE_LIBS)
 
 
 ## Tests

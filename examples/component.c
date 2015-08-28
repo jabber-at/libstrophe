@@ -1,5 +1,5 @@
-/* basic.c
-** libstrophe XMPP client library -- basic usage example
+/* component.c
+** libstrophe XMPP client library -- external component (XEP-0114) example
 **
 ** Copyright (C) 2005-2009 Collecta, Inc.
 **
@@ -9,7 +9,13 @@
 ** This program is dual licensed under the MIT and GPLv3 licenses.
 */
 
+/* This example demonstrates simple connection to a server
+** as an external component. See XEP-0114 for more details.
+** This program requires correctly configured server to run.
+*/
+
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <strophe.h>
 
@@ -36,20 +42,27 @@ int main(int argc, char **argv)
     xmpp_ctx_t *ctx;
     xmpp_conn_t *conn;
     xmpp_log_t *log;
-    char *jid, *pass, *host;
+    char *jid, *pass, *host, *port_err = NULL;
+    unsigned short port = 0;
 
     /* take a jid and password on the command line */
-    if (argc < 3 || argc > 4) {
-        fprintf(stderr, "Usage: basic <jid> <pass> [<host>]\n\n");
+    if (argc < 4 || argc > 5) {
+        fprintf(stderr, "Usage: component <jid> <pass> <host> [<port>]\n\n");
         return 1;
     }
 
     jid = argv[1];
     pass = argv[2];
-    host = NULL;
+    host = argv[3];
 
-    if (argc == 4)
-        host = argv[3];
+    if (argc == 5) {
+        short tmp_port = (short) strtol(argv[4], &port_err, 10);
+        if (tmp_port < 0 || *port_err != '\0') {
+            fprintf(stderr, "Invalid value of <port> [%s].\n", argv[4]);
+            return 1;
+        }
+        port = (unsigned short) tmp_port;
+    }
 
     /* init library */
     xmpp_initialize();
@@ -66,7 +79,7 @@ int main(int argc, char **argv)
     xmpp_conn_set_pass(conn, pass);
 
     /* initiate connection */
-    xmpp_connect_client(conn, host, 0, conn_handler, ctx);
+    xmpp_connect_component(conn, host, port, conn_handler, ctx);
 
     /* enter the event loop -
        our connect handler will trigger an exit */
@@ -81,3 +94,4 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
