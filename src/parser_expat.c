@@ -23,8 +23,8 @@
 #include "common.h"
 #include "parser.h"
 
-/* ASCII FF is invalid UTF-8 and should never be present in well-formed XML */
-#define NAMESPACE_SEP ('\xFF')
+/* Use the Unit Separator to delimit namespace and name in our XML*/
+#define NAMESPACE_SEP ('\x1F')
 
 struct _parser_t {
     xmpp_ctx_t *ctx;
@@ -43,7 +43,7 @@ static char *_xml_name(xmpp_ctx_t *ctx, const char *nsname)
 {
     char *result = NULL;
     const char *c;
-    int len;
+    size_t len;
 
     c = strchr(nsname, NAMESPACE_SEP);
     if (c == NULL) return xmpp_strdup(ctx, nsname);
@@ -109,41 +109,27 @@ static void _start_element(void *userdata,
             parser->startcb((char *)name, (char **)attrs, 
                             parser->userdata);
     } else {
-	/* build stanzas at depth 1 */
-	if (!parser->stanza && parser->depth != 1) {
-	    /* something terrible happened */
-	    /* FIXME: shutdown disconnect */
-	    xmpp_error(parser->ctx, "parser", "oops, where did our stanza go?");
-	} else if (!parser->stanza) {
-	    /* starting a new toplevel stanza */
-	    parser->stanza = xmpp_stanza_new(parser->ctx);
-	    if (!parser->stanza) {
-		/* FIXME: can't allocate, disconnect */
-	    }
-	    xmpp_stanza_set_name(parser->stanza, name);
-	    _set_attributes(parser->stanza, attrs);
-	    if (ns)
-		xmpp_stanza_set_ns(parser->stanza, ns);
-	} else {
-	    /* starting a child of parser->stanza */
-	    child = xmpp_stanza_new(parser->ctx);
-	    if (!child) {
-		/* FIXME: can't allocate, disconnect */
-	    }
-	    xmpp_stanza_set_name(child, name);
-	    _set_attributes(child, attrs);
-	    if (ns)
-		xmpp_stanza_set_ns(child, ns);
+        /* build stanzas at depth 1 */
+        if (!parser->stanza && parser->depth != 1) {
+            /* something terrible happened */
+            /* FIXME: shutdown disconnect */
+            xmpp_error(parser->ctx, "parser", "oops, where did our stanza go?");
+        } else {
+            child = xmpp_stanza_new(parser->ctx);
+            if (!child) {
+                /* FIXME: can't allocate, disconnect */
+            }
+            xmpp_stanza_set_name(child, name);
+            _set_attributes(child, attrs);
+            if (ns)
+                xmpp_stanza_set_ns(child, ns);
 
-	    /* add child to parent */
-	    xmpp_stanza_add_child(parser->stanza, child);
-	    
-	    /* the child is owned by the toplevel stanza now */
-	    xmpp_stanza_release(child);
-
-	    /* make child the current stanza */
-	    parser->stanza = child;
-	}
+            if (parser->stanza != NULL) {
+                xmpp_stanza_add_child(parser->stanza, child);
+                xmpp_stanza_release(child);
+            }
+            parser->stanza = child;
+        }
     }
 
     if (ns) xmpp_free(parser->ctx, ns);
