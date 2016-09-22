@@ -3,7 +3,7 @@ libstrophe (0.9.1-1) unstable; urgency=medium
   * New upstream version 0.9.1
   * Bump standards to 3.9.8, no changes needed
 
- -- Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>  Thu, 22 Sep 2016 18:30:16 +0200
+ -- Dariusz Dwornikowski <darek@debian.org>  Thu, 22 Sep 2016 18:30:16 +0200
 
 libstrophe (0.8.8-2) unstable; urgency=medium
 

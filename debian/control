@@ -1,6 +1,6 @@
 Source: libstrophe
 Priority: optional
-Maintainer: Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
+Maintainer: Dariusz Dwornikowski <darek@debian.org>>
 Build-Depends:
  check,
  debhelper (>= 9),

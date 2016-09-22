@@ -42,7 +42,7 @@ License: permissive
  on all source code distributions
 
 Files: debian/*
-Copyright: 2014 Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
+Copyright: 2014-2016 Dariusz Dwornikowski <darek@debian.org>
 License: MIT and GPL-3
 
 License: MIT and GPL-3
