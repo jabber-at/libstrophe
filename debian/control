@@ -1,6 +1,6 @@
 Source: libstrophe
 Priority: optional
-Maintainer: Dariusz Dwornikowski <darek@debian.org>>
+Maintainer: Dariusz Dwornikowski <darek@debian.org>
 Build-Depends:
  check,
  debhelper (>= 9),
@@ -11,8 +11,8 @@ Build-Depends:
 Standards-Version: 3.9.8
 Section: libs
 Homepage: http://strophe.im/
-Vcs-Git: git://anonscm.debian.org/collab-maint/libstrophe.git
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/libstrophe.git
+Vcs-Git: https://anonscm.debian.org/git/collab-maint/libstrophe.git
+Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/libstrophe.git
 
 Package: libstrophe-dev
 Section: libdevel
