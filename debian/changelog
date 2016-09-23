@@ -4,6 +4,7 @@ libstrophe (0.9.1-1) unstable; urgency=medium
   * Bump standards to 3.9.8, no changes needed
   * Year 2016 added to d/copyright
   * Changed maintainer's email to d.o
+  * s/libstrophe0.symbols updated with new symbols
 
  -- Dariusz Dwornikowski <darek@debian.org>  Thu, 22 Sep 2016 18:30:16 +0200
 
