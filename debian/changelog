@@ -6,6 +6,7 @@ libstrophe (0.9.1-1) unstable; urgency=medium
   * Changed maintainer's email to d.o
   * s/libstrophe0.symbols updated with new symbols
   * Enable bindnow hardening flags
+  * Fixed spelling in patch d/patches/fix_spelling.patch
 
  -- Dariusz Dwornikowski <darek@debian.org>  Thu, 22 Sep 2016 18:30:16 +0200
 

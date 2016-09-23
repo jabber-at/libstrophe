@@ -1,0 +1,54 @@
+Author: Dariusz Dwornikowski <darek@debian.org>
+Description: Fix spelling   
+Forwarded: https://github.com/strophe/libstrophe/issues/96
+--- a/src/event.c
++++ b/src/event.c
+@@ -104,8 +104,8 @@
+             ret = tls_clear_pending_write(conn->tls);
+ 
+             if (ret < 0 && !tls_is_recoverable(tls_error(conn->tls))) {
+-                /* an error occured */
+-                xmpp_debug(ctx, "xmpp", "Send error occured, disconnecting.");
++                /* an error occurred */
++                xmpp_debug(ctx, "xmpp", "Send error occurred, disconnecting.");
+                 conn->error = ECONNABORTED;
+                 conn_disconnect(conn);
+             }
+@@ -120,7 +120,7 @@
+                 ret = tls_write(conn->tls, &sq->data[sq->written], towrite);
+ 
+                 if (ret < 0 && !tls_is_recoverable(tls_error(conn->tls))) {
+-                    /* an error occured */
++                    /* an error occurred */
+                     conn->error = tls_error(conn->tls);
+                     break;
+                 } else if (ret < towrite) {
+@@ -133,7 +133,7 @@
+                 ret = sock_write(conn->sock, &sq->data[sq->written], towrite);
+ 
+                 if (ret < 0 && !sock_is_recoverable(sock_error())) {
+-                    /* an error occured */
++                    /* an error occurred */
+                     conn->error = sock_error();
+                     break;
+                 } else if (ret < towrite) {
+@@ -160,7 +160,7 @@
+         if (conn->error) {
+             /* FIXME: need to tear down send queues and random other things
+              * maybe this should be abstracted */
+-            xmpp_debug(ctx, "xmpp", "Send error occured, disconnecting.");
++            xmpp_debug(ctx, "xmpp", "Send error occurred, disconnecting.");
+             conn->error = ECONNABORTED;
+             conn_disconnect(conn);
+         }
+--- a/tests/res_query_dump.c
++++ b/tests/res_query_dump.c
+@@ -61,7 +61,7 @@
+     len = res_query(fulldomain, C_IN, T_SRV, buf, sizeof(buf));
+ 
+     if (len < 0) {
+-        fprintf(stderr, "res_query(): Error occured (errno=%d)\n", errno);
++        fprintf(stderr, "res_query(): Error occurred (errno=%d)\n", errno);
+     }
+     if (len == 0) {
+         fprintf(stderr, "res_query(): Empty result\n");
