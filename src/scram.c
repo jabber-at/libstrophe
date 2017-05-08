@@ -24,64 +24,52 @@
 
 #include "scram.h"
 
-/* block size for HMAC */
-#define BLOCK_SIZE 64
-#if BLOCK_SIZE < SHA1_DIGEST_SIZE
-#error BLOCK_SIZE must not be less than SHA1_DIGEST_SIZE
-#endif
+#define HMAC_BLOCK_SIZE 64
 
 static const uint8_t ipad = 0x36;
 static const uint8_t opad = 0x5C;
 
-static void SHA1(const uint8_t* data, size_t len,
-                 uint8_t digest[SHA1_DIGEST_SIZE])
+static void crypto_HMAC_SHA1(const uint8_t *key, size_t key_len,
+                             const uint8_t *text, size_t len,
+                             uint8_t *digest)
 {
-    SHA1_CTX ctx;
-    SHA1_Init(&ctx);
-    SHA1_Update(&ctx, data, len);
-    SHA1_Final(&ctx, digest);
-}
-
-static void HMAC_SHA1(const uint8_t *key, size_t key_len,
-                      const uint8_t *text, size_t len,
-                      uint8_t digest[SHA1_DIGEST_SIZE])
-{
-    uint8_t key_pad[BLOCK_SIZE];
-    uint8_t key_ipad[BLOCK_SIZE];
-    uint8_t key_opad[BLOCK_SIZE];
+    uint8_t key_pad[HMAC_BLOCK_SIZE];
+    uint8_t key_ipad[HMAC_BLOCK_SIZE];
+    uint8_t key_opad[HMAC_BLOCK_SIZE];
     uint8_t sha_digest[SHA1_DIGEST_SIZE];
     int i;
     SHA1_CTX ctx;
 
     memset(key_pad, 0, sizeof(key_pad));
-    if (key_len <= BLOCK_SIZE) {
+    if (key_len <= HMAC_BLOCK_SIZE) {
         memcpy(key_pad, key, key_len);
     } else {
         /* according to RFC2104 */
-        SHA1(key, key_len, key_pad);
+        crypto_SHA1(key, key_len, key_pad);
     }
 
-    for (i = 0; i < BLOCK_SIZE; i++) {
+    for (i = 0; i < HMAC_BLOCK_SIZE; i++) {
         key_ipad[i] = key_pad[i] ^ ipad;
         key_opad[i] = key_pad[i] ^ opad;
     }
 
-    SHA1_Init(&ctx);
-    SHA1_Update(&ctx, key_ipad, BLOCK_SIZE);
-    SHA1_Update(&ctx, text, len);
-    SHA1_Final(&ctx, sha_digest);
+    crypto_SHA1_Init(&ctx);
+    crypto_SHA1_Update(&ctx, key_ipad, HMAC_BLOCK_SIZE);
+    crypto_SHA1_Update(&ctx, text, len);
+    crypto_SHA1_Final(&ctx, sha_digest);
 
-    SHA1_Init(&ctx);
-    SHA1_Update(&ctx, key_opad, BLOCK_SIZE);
-    SHA1_Update(&ctx, sha_digest, SHA1_DIGEST_SIZE);
-    SHA1_Final(&ctx, digest);
+    crypto_SHA1_Init(&ctx);
+    crypto_SHA1_Update(&ctx, key_opad, HMAC_BLOCK_SIZE);
+    crypto_SHA1_Update(&ctx, sha_digest, SHA1_DIGEST_SIZE);
+    crypto_SHA1_Final(&ctx, digest);
 }
 
 static void SCRAM_SHA1_Hi(const uint8_t *text, size_t len,
                           const uint8_t *salt, size_t salt_len, uint32_t i,
-                          uint8_t digest[SHA1_DIGEST_SIZE])
+                          uint8_t *digest)
 {
-    int j, k;
+    int  k;
+    uint32_t j;
     uint8_t tmp[128];
 
     static uint8_t int1[] = {0x0, 0x0, 0x0, 0x1};
@@ -98,11 +86,11 @@ static void SCRAM_SHA1_Hi(const uint8_t *text, size_t len,
     memcpy(&tmp[salt_len], int1, sizeof(int1));
 
     /* 'text' for Hi is a 'key' for HMAC */
-    HMAC_SHA1(text, len, tmp, salt_len + sizeof(int1), digest);
+    crypto_HMAC_SHA1(text, len, tmp, salt_len + sizeof(int1), digest);
     memcpy(tmp, digest, SHA1_DIGEST_SIZE);
 
     for (j = 1; j < i; j++) {
-        HMAC_SHA1(text, len, tmp, SHA1_DIGEST_SIZE, tmp);
+        crypto_HMAC_SHA1(text, len, tmp, SHA1_DIGEST_SIZE, tmp);
         for (k = 0; k < SHA1_DIGEST_SIZE; k++) {
             digest[k] ^= tmp[k];
         }
@@ -111,30 +99,30 @@ static void SCRAM_SHA1_Hi(const uint8_t *text, size_t len,
 
 void SCRAM_SHA1_ClientKey(const uint8_t *password, size_t len,
                           const uint8_t *salt, size_t salt_len, uint32_t i,
-                          uint8_t key[SHA1_DIGEST_SIZE])
+                          uint8_t *key)
 {
     uint8_t salted[SHA1_DIGEST_SIZE];
 
     /* XXX: Normalize(password) is omitted */
 
     SCRAM_SHA1_Hi(password, len, salt, salt_len, i, salted);
-    HMAC_SHA1(salted, SHA1_DIGEST_SIZE, (uint8_t *)"Client Key",
-              strlen("Client Key"), key);
+    crypto_HMAC_SHA1(salted, SHA1_DIGEST_SIZE, (uint8_t *)"Client Key",
+                     strlen("Client Key"), key);
 }
 
-void SCRAM_SHA1_ClientSignature(const uint8_t ClientKey[SHA1_DIGEST_SIZE],
+void SCRAM_SHA1_ClientSignature(const uint8_t *ClientKey,
                                 const uint8_t *AuthMessage, size_t len,
-                                uint8_t sign[SHA1_DIGEST_SIZE])
+                                uint8_t *sign)
 {
     uint8_t stored[SHA1_DIGEST_SIZE];
 
-    SHA1(ClientKey, SHA1_DIGEST_SIZE, stored);
-    HMAC_SHA1(stored, SHA1_DIGEST_SIZE, AuthMessage, len, sign);
+    crypto_SHA1(ClientKey, SHA1_DIGEST_SIZE, stored);
+    crypto_HMAC_SHA1(stored, SHA1_DIGEST_SIZE, AuthMessage, len, sign);
 }
 
-void SCRAM_SHA1_ClientProof(const uint8_t ClientKey[SHA1_DIGEST_SIZE],
-                            const uint8_t ClientSignature[SHA1_DIGEST_SIZE],
-                            uint8_t proof[SHA1_DIGEST_SIZE])
+void SCRAM_SHA1_ClientProof(const uint8_t *ClientKey,
+                            const uint8_t *ClientSignature,
+                            uint8_t *proof)
 {
     int i;
     for (i = 0; i < SHA1_DIGEST_SIZE; i++) {

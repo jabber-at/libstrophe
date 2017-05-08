@@ -18,6 +18,12 @@
 
 #include "ostypes.h"
 
+/* TODO evaluate x and y only once */
+#define xmpp_min(x, y) ((x) < (y) ? (x) : (y))
+
+/* string functions */
+char *xmpp_strtok_r(char *s, const char *delim, char **saveptr);
+
 /* timing functions */
 uint64_t time_stamp(void);
 uint64_t time_elapsed(uint64_t t1, uint64_t t2);

@@ -23,7 +23,7 @@ int handle_reply(xmpp_conn_t * const conn,
 		 void * const userdata)
 {
     xmpp_stanza_t *query, *item;
-    char *type, *name;
+    const char *type, *name;
 
     type = xmpp_stanza_get_type(stanza);
     if (strcmp(type, "error") == 0)
@@ -108,6 +108,13 @@ int main(int argc, char **argv)
 
     /* create a connection */
     conn = xmpp_conn_new(ctx);
+
+    /*
+     * also you can disable TLS support or force legacy SSL
+     * connection without STARTTLS
+     *
+     * see xmpp_conn_set_flags() or examples/basic.c
+     */
 
     /* setup authentication information */
     xmpp_conn_set_jid(conn, argv[1]);

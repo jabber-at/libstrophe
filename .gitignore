@@ -1,8 +1,7 @@
+*.swp
 Makefile
 test-driver
 .libs
-src/*.lo
-*.la
 Makefile.in
 configure
 libtool
@@ -21,8 +20,10 @@ autom4te.cache
 .deps
 .sconsign*
 src/*.o
+src/*.lo
 examples/*.o
 *.a
+*.la
 *.pc
 *.tar.gz
 *.zip
@@ -34,6 +35,7 @@ examples/basic
 examples/bot
 examples/component
 examples/roster
+examples/uuid
 test_stamp
 test-suite.log
 tests/*.o
@@ -44,7 +46,17 @@ tests/test_base64
 tests/test_ctx
 tests/test_hash
 tests/test_jid
+tests/test_md5
+tests/test_rand
+tests/test_resolver
 tests/test_sasl
+tests/test_scram
+tests/test_sha1
+tests/test_snprintf
+tests/test_string
 tests/test_sock
 m4/
 libstrophe.project
+libs/
+obj/
+expat/
